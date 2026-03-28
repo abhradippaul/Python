@@ -115,15 +115,84 @@
 
 # ===========================================
 
-num = int(input("Enter a number: "))
-is_prime = True
+# num = int(input("Enter a number: "))
+# is_prime = True
 
-for i in range(2,int(num/2)):
-    if num % i == 0 and num > 1 :
-        is_prime = False
-        break
+# if num > 1 :
+#     for i in range(2,int(num/2)):
+#         if num % i == 0 and num > 1 :
+#             is_prime = False
+#             break
 
-if is_prime:
-    print(num, "is prime")
-else:
-    print(num, "is not prime")
+# if is_prime:
+#     print(num, "is prime")
+# else:
+#     print(num, "is not prime")
+
+# ===========================================
+
+# items = ["apple", "banana", "orange", "apple", "mango"]
+
+# unique_set = set()
+
+# for char in items:
+#     if items.count(char) > 1:
+#         print("The duplicate value is", char)
+#         break
+
+# for char in items:
+#     if char in unique_set:
+#         print("The duplicate value is", char)
+#         break
+#     unique_set.add(char)
+
+# ===========================================
+
+# from time import sleep,time_ns
+# time = 1
+
+# for i in range(5):
+#     num = input("Enter a number: ")
+#     print("Time stamp: ", time_ns())
+#     print("Wait time: ", time)
+#     sleep(time)
+#     time *= 2
+
+
+# from PIL import Image
+# import piexif
+
+# img = Image.new("RGB", (400, 300), color=(144, 144, 144))
+
+# gps_ifd = {
+#     piexif.GPSIFD.GPSLatitudeRef: b'N',
+#     piexif.GPSIFD.GPSLatitude: [(37,1),(46,1),(30,1)],
+#     piexif.GPSIFD.GPSLongitudeRef: b'E',
+#     piexif.GPSIFD.GPSLongitude: [(122,1),(25,1),(10,1)],
+# }
+
+# exif_dict = {"GPS": gps_ifd}
+# exif_bytes = piexif.dump(exif_dict)
+
+# img.save("working_gps.jpg", "jpeg", exif=exif_bytes)
+
+# from PIL import Image, ImageDraw
+# import piexif
+
+# img = Image.new("RGB", (400, 300), "white")
+# draw = ImageDraw.Draw(img)
+
+# # Add structure (important for hashing)
+# draw.rectangle([50, 50, 350, 250], outline="black", width=5)
+# draw.line((0, 0, 400, 300), fill="black", width=3)
+
+# gps_ifd = {
+#     piexif.GPSIFD.GPSLatitudeRef: b'N',
+#     piexif.GPSIFD.GPSLatitude: [(37, 1), (45, 1), (33314, 1000)],  # 37°45'33.314"
+    
+#     piexif.GPSIFD.GPSLongitudeRef: b'W',
+#     piexif.GPSIFD.GPSLongitude: [(122, 1), (29, 1), (12426, 1000)],  # 122°29'12.426"
+# }
+
+# exif_dict = {"GPS": gps_ifd}
+# img.save("better_test.jpg", exif=piexif.dump(exif_dict))
