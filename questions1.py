@@ -196,3 +196,41 @@
 
 # exif_dict = {"GPS": gps_ifd}
 # img.save("better_test.jpg", exif=piexif.dump(exif_dict))
+
+class Car:
+    total_car = 0
+
+    def __init__(self, brand, model):
+        self.__brand = brand
+        self.__model = model
+        Car.total_car += 1
+
+    def print_car(self):
+        print(f"The brand of the car is {self.__brand} and the model is {self.__model}")
+
+    def full_name(self):
+        return f"{self.__brand} {self.__model}"
+    
+    def get_brand(self):
+        return self.__brand
+    
+    def fuel_type(self):
+        print("Fuel type is petrol")
+
+
+class ElectricCar(Car):
+    def __init__(self, brand, model, battery_size):
+        super().__init__(brand, model)
+        self.battery_size = battery_size
+
+    def fuel_type(self):
+        print("Fuel type is electric")
+
+new_car = Car("BMW", "M4")
+new_car.print_car()
+print(new_car.full_name())
+electric_car = ElectricCar("Tesla", "Model Y", 64)
+electric_car.print_car()
+new_car.fuel_type()
+electric_car.fuel_type()
+print(f"Total car count is {Car.total_car}")
