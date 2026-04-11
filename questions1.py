@@ -217,6 +217,14 @@ class Car:
     def fuel_type(self):
         print("Fuel type is petrol")
 
+    @staticmethod
+    def car_description():
+        print("Cars are amazing")
+
+    @property
+    def model(self):
+        return self.__model
+
 
 class ElectricCar(Car):
     def __init__(self, brand, model, battery_size):
@@ -234,3 +242,7 @@ electric_car.print_car()
 new_car.fuel_type()
 electric_car.fuel_type()
 print(f"Total car count is {Car.total_car}")
+Car.car_description()
+print(isinstance(new_car,Car))
+print(isinstance(electric_car,Car))
+print(isinstance(new_car,ElectricCar))
