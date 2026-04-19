@@ -142,60 +142,69 @@ class LinkedList:
             before = temp
             temp = after
 
-    def find_middle_node(self):
-        slow = self.head
-        fast = self.head
-        while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
-        return slow.value
+    # def find_middle_node(self):
+    #     slow = self.head
+    #     fast = self.head
+    #     while fast and fast.next:
+    #         fast = fast.next.next
+    #         slow = slow.next
+    #     return slow.value
 
-    def has_loop(self):
-        slow = self.head
-        fast = self.head
-        while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
-            if fast == slow:
-                return True
-        return False
+    # def has_loop(self):
+    #     slow = self.head
+    #     fast = self.head
+    #     while fast and fast.next:
+    #         fast = fast.next.next
+    #         slow = slow.next
+    #         if fast == slow:
+    #             return True
+    #     return False
+
+    # def kth_node_from_end(self, k):
+    #     slow = self.head
+    #     fast = self.head
+    #     for _ in range(k):
+    #         if not fast:
+    #             return None
+    #         fast = fast.next
+        
+    #     while fast:
+    #         fast = fast.next
+    #         slow = slow.next
+        
+    #     return slow
+
+    # def remove_duplicate(self):
+    #     current = self.head
+    #     while current:
+    #         runner = current
+    #         while runner.next:
+    #             if current.value == runner.next.value:
+    #                 runner.next = runner.next.next
+    #             else:
+    #                 runner = runner.next
+    #         current = current.next
 
     def kth_node_from_end(self, k):
         slow = self.head
         fast = self.head
         for _ in range(k):
-            if not fast:
-                return None
             fast = fast.next
-        
-        while fast:
+        while fast and fast.next:
             fast = fast.next
             slow = slow.next
-        
         return slow
 
-    def remove_duplicate(self):
-        current = self.head
-        while current:
-            runner = current
-            while runner.next:
-                if current.value == runner.next.value:
-                    runner.next = runner.next.next
-                else:
-                    runner = runner.next
-            current = current.next
 
 
 new_linkedlist = LinkedList(10)
 new_linkedlist.append(20)
-new_linkedlist.append(20)
 new_linkedlist.append(30)
-new_linkedlist.append(40)
 new_linkedlist.append(40)
 new_linkedlist.append(50)
 new_linkedlist.append(60)
-new_linkedlist.append(60)
 new_linkedlist.append(70)
+new_linkedlist.append(80)
 # print(f"The poped value is {new_linkedlist.pop()}")
 # new_linkedlist.prepend(70)
 # new_linkedlist.prepend(60)
@@ -205,8 +214,7 @@ new_linkedlist.append(70)
 # new_linkedlist.set_value(2, 100)
 # print(new_linkedlist.remove(2).value)
 # new_linkedlist.reverse()
-new_linkedlist.print_list()
-new_linkedlist.remove_duplicate()
+# new_linkedlist.remove_duplicate()
 new_linkedlist.print_list()
 # print(f"The middle node is {new_linkedlist.find_middle_node()}")
 # print(f"The kth node from end is {new_linkedlist.kth_node_from_end(3).value}")
