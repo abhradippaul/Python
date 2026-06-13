@@ -185,26 +185,78 @@ class LinkedList:
     #                 runner = runner.next
     #         current = current.next
 
-    def kth_node_from_end(self, k):
-        slow = self.head
-        fast = self.head
-        for _ in range(k):
-            fast = fast.next
-        while fast and fast.next:
-            fast = fast.next
-            slow = slow.next
-        return slow
+    def binary_to_decimal(self):
+        current = self.head
+        decimal = 0
+        while current:
+            if current.value != 1 and current.value != 0:
+                return None
+            decimal *= 2
+            decimal += current.value
+            current = current.next
+        return decimal
+    
+    def partition_list(self, n):
+        if not self.head:
+            return None
+        after_head = Node(0)
+        before_head = Node(0)
+        after = after_head
+        before = before_head
+        current = self.head
+        while current:
+            next_node = current.next
+            current.next = None
+            if current.value >= n:
+                after.next = current
+                after = after.next
+            else:
+                before.next = current
+                before = before.next
+            current = next_node
+        before.next = after_head.next
+        self.tail = after
+        self.head = before_head.next
+        return self.head
+    
+    def reverse_between(self, left, right):
+        if not self.head or left == right:
+            return self.head
+        dummy = Node(0)
+        dummy.next = self.head
+        prev = dummy
+        for _ in range(left -1):
+            prev = prev.next
 
+        current = prev.next
+        sublist_tail = current
+        for _ in range(right - left):
+            temp = current.next
+            current.next = temp.next
+            temp.next = prev.next
+            prev.next = temp
 
+        self.head = dummy.next
+
+        if sublist_tail.next is None:
+            self.tail = sublist_tail
+
+        return dummy.next
 
 new_linkedlist = LinkedList(10)
 new_linkedlist.append(20)
 new_linkedlist.append(30)
 new_linkedlist.append(40)
+# new_linkedlist.append(80)
 new_linkedlist.append(50)
 new_linkedlist.append(60)
+# new_linkedlist.append(20)
 new_linkedlist.append(70)
+# new_linkedlist.append(60)
 new_linkedlist.append(80)
+# new_linkedlist = LinkedList(1)
+# new_linkedlist.append(0)
+# new_linkedlist.append(1)
 # print(f"The poped value is {new_linkedlist.pop()}")
 # new_linkedlist.prepend(70)
 # new_linkedlist.prepend(60)
@@ -214,8 +266,15 @@ new_linkedlist.append(80)
 # new_linkedlist.set_value(2, 100)
 # print(new_linkedlist.remove(2).value)
 # new_linkedlist.reverse()
+# new_linkedlist.print_list()
 # new_linkedlist.remove_duplicate()
 new_linkedlist.print_list()
+# new_linkedlist.partition_list(30)
+# print(f"The paritioned linkedlist is")
+new_linkedlist.reverse_between(1, 4)
+new_linkedlist.print_list()
+# new_linkedlist.print_list()
+# print(new_linkedlist.binary_to_decimal())
 # print(f"The middle node is {new_linkedlist.find_middle_node()}")
 # print(f"The kth node from end is {new_linkedlist.kth_node_from_end(3).value}")
 # print(new_linkedlist.has_loop())

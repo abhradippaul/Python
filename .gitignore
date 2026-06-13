@@ -3,3 +3,4 @@ venv
 *.jpg
 *.env
 .vscode
+.codex
