@@ -41,33 +41,33 @@ class LinkedList:
             temp.prev = new_node
             self.head = new_node
         self.length += 1
+        return new_node
 
     def append(self, value):
-        temp = self.head
         new_node = Node(value)
-        if temp is None:
+        if self.head is None:
             self.head = new_node
             self.tail = new_node
         else:
-            while temp.next:
-                temp = temp.next
-                new_node.prev = temp
-                temp.next = new_node
-                self.tail = new_node
+            self.tail.next = new_node
+            new_node.prev = self.tail
+            self.tail = new_node
         self.length += 1
         return new_node
 
     def find_kth_element(self, k):
         temp = self.head
-        if k > self.length: return None
+        if k is None or temp is None: return None
+        elif k > self.length: return None
         elif temp is None: return None
         for _ in range(0,k-1):
             temp = temp.next
         return temp
 
-    def inserth_kth_element(self, value, k):
+    def insert_kth_element(self, value, k):
         temp = self.head
-        if temp is None: return None
+        if temp is None or k is None: return None
+        elif k > self.length or k < 1: return None
         elif k == 1: return self.push_first(value)
         else:
             new_node = Node(value) 
@@ -81,7 +81,7 @@ class LinkedList:
 
     def find_by_value(self, value=None):
         temp = self.head
-        if (temp or value) is None: return None
+        if temp is None or value is None: return None
         elif temp.value == value: return temp
         elif self.tail.value == value: return self.tail
         else:
@@ -93,7 +93,7 @@ class LinkedList:
 
     def insert_before_value(self, value, new_value):
         temp = self.head
-        if (value or new_value or temp) is None: return None
+        if value is None or new_value is None or temp is None: return None
         node = self.find_by_value(value)
         if node is None: return None
         new_node = Node(new_value)
@@ -114,6 +114,7 @@ class LinkedList:
         else:
             self.tail = temp.prev
             temp.prev.next = None
+            temp.prev = None
             self.length -= 1
         return temp
 
@@ -132,7 +133,8 @@ class LinkedList:
 
     def delete_kth_element(self, k=None):
         temp = self.head
-        if (temp or k or k > self.length) is None: return None
+        if (temp or k) is None: return None
+        elif k > self.length or k < 1: return None
         elif k == 1: return self.pop_first()
         elif k == self.length: return self.pop()
         delete_node = self.find_kth_element(k)
@@ -146,7 +148,7 @@ class LinkedList:
 
     def delete_before_value(self, value=None):
         temp = self.head
-        if (temp or value) is None: return None
+        if temp is None or value is None: return None
         next_of_delete_node = self.find_by_value(value)
         if next_of_delete_node is None: return None
         delete_node = next_of_delete_node.prev
@@ -158,6 +160,16 @@ class LinkedList:
         delete_node.prev = None
         self.length -= 1
         return delete_node
+
+    def reverse_double_linkedlist(self):
+        temp = self.head
+        if temp is None: return None
+        else:
+            while temp:
+                next = temp.next
+                prev = temp.prev
+                if next is None:
+                    pass
 
 def convert_array_to_linkedlist(arr):
     linkedlist = LinkedList(arr[0])
@@ -171,7 +183,7 @@ new_linkedlist = convert_array_to_linkedlist([0,1,2,3,4,5,6])
 # print(f"Insert element before and element {getattr(new_linkedlist.insert_before_value(7,60), "value", "Not Found")}")
 # print(f"The popped value is {new_linkedlist.pop().value}")
 # print(f"The popped first value is {new_linkedlist.pop_first().value}")
-print(f"Delete element in the linkedlist is {getattr(new_linkedlist.delete_kth_element(1),"value", "Not Found")}")
+# print(f"Delete element in the linkedlist is {getattr(new_linkedlist.delete_kth_element(1),"value", "Not Found")}")
 # print(f"Delete element in the linkedlist is {getattr(new_linkedlist.delete_before_value(1),"value", "Not Found")}")
 new_linkedlist.print_all()
 new_linkedlist.print_all_reverse()
