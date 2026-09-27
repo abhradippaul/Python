@@ -61,7 +61,7 @@ def get_orders_status(request: Request):
             "or are out for delivery"
         ), 
         tags=["orders"],
-        response_description="List or active order objects",
+        response_description="List of active order objects",
         deprecated=False
         )
 def get_active_orders():
@@ -89,6 +89,38 @@ def get_active_orders():
                 "total_amount": 360.0,
                 "status": "Out for Delivery",
                 "eta_minutes": 8,
+            },
+        ]
+    }
+
+@app.get("/resturants", tags=["Resturants"])
+def list_restro():
+    """Retrieve list of available restaurants"""
+    return {
+        "restaurants": [
+            {
+                "restaurant_id": "RST-101",
+                "name": "Spice Garden",
+                "cuisine": "North Indian",
+                "rating": 4.5,
+                "delivery_time_minutes": 30,
+                "is_open": True,
+            },
+            {
+                "restaurant_id": "RST-102",
+                "name": "Dosa Plaza",
+                "cuisine": "South Indian",
+                "rating": 4.2,
+                "delivery_time_minutes": 25,
+                "is_open": True,
+            },
+            {
+                "restaurant_id": "RST-103",
+                "name": "Dragon Wok",
+                "cuisine": "Chinese",
+                "rating": 4.0,
+                "delivery_time_minutes": 40,
+                "is_open": False,
             },
         ]
     }
