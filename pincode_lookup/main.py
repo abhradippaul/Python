@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Query, HTTPException
-from models import PincodeResponse, PincodeItem
+from fastapi import FastAPI
+from exceptions import PinCodeNotFoundError, pincode_not_found_handler, InvalidPinCodeError, invalid_pincode_handler
+from models import LocationResponse, BulkRequest, BulkResponse
 from data import pincode_items
 
 app = FastAPI(
@@ -8,39 +9,36 @@ app = FastAPI(
     version="0.1.0"
 )
 
+app.add_exception_handler(PinCodeNotFoundError, pincode_not_found_handler)
+app.add_exception_handler(InvalidPinCodeError, invalid_pincode_handler)
+
+
 @app.get("/", tags=["basic"])
 def welcome():
-    return {
-        "message": "Welcome to the Pincode Lookup API"
-    }
+    return {"message": "Welcome to the Pincode Lookup API"}
+
 
 @app.get("/healthz", tags=["basic"])
 def healthcheck():
-    return {
-        "message": "Pincode Lookup API is working fine"
-    }
+    return {"message": "Pincode Lookup API is working fine"}
 
-@app.get("/pincodes", response_model=PincodeResponse, tags=["pincodes"])
-def get_pincodes(
-    city: str | None = Query(None, description="Filter by city"),
-    state: str | None = Query(None, description="Filter by state")
-):
-    filtered = list(pincode_items.values())
 
-    if city:
-        filtered = [e for e in filtered if e["city"].lower() == city.lower()]
-        if not filtered:
-            raise HTTPException(status_code=404, detail=f"No pincode found for city: {city}")
-
-    if state:
-        filtered = [e for e in filtered if e["state"].lower() == state.lower()]
-        if not filtered:
-            raise HTTPException(status_code=404, detail=f"No pincode found for state: {state}")
-
-    return PincodeResponse(count=len(filtered), items=filtered)
-
-@app.get("/pincodes/{pincode}", response_model=PincodeItem, tags=["pincodes"])
-def get_pincode(pincode: str):
+@app.get("/pincode/{pincode}", response_model=LocationResponse, tags=["pincodes"])
+def lookup_pincode(pincode: str):
+    if len(pincode) != 6 or not pincode.isdigit():
+        raise InvalidPinCodeError(pincode, "Must be exactly 6 digits")
     if pincode not in pincode_items:
-        raise HTTPException(status_code=404, detail=f"No data found for pincode: {pincode}")
+        raise PinCodeNotFoundError(pincode)
     return pincode_items[pincode]
+
+
+@app.post("/pincode/bulk", response_model=BulkResponse, tags=["pincodes"])
+def bulk_lookup(request: BulkRequest):
+    results = [pincode_items[code] for code in request.pincodes if code in pincode_items]
+    missing = [code for code in request.pincodes if code not in pincode_items]
+    return BulkResponse(
+        found=len(results),
+        not_found=len(missing),
+        missing=missing,
+        results=results,
+    )
